@@ -60,7 +60,7 @@ class ConnectionHandler:
             print(self.state == "Open")
             if (self.state == "Open"):
                 print("Yes, it is an open state")
-                print(self.completeMessage)
+                print(self.completeMessage[1:5])
                 if (self.completeMessage[1:5] == "HELO"):
                     print("made it through HELO if")
                     m = checkNonWhiteSpace(self.completeMessage[5:])
@@ -72,7 +72,6 @@ class ConnectionHandler:
                         self.socket.send(b"501 Syntax:  proper syntax\r\n")
                     else :
                         self.state = "HELO"
-                        print(self.completeMessage)
                         self.socket.send(b"250 rrg67\r\n")
                         self.state = None
                         self.completeMessage = None
