@@ -177,10 +177,6 @@ class ConnectionHandler:
                 self.endMessage = False
             elif (self.state == "354"):
                 c = findEndChar(self.completeMessage)
-                if (self.completeMessage[len(c:c+3] != ".\r\n"):
-                    print(self.completeMessage[:c])
-                    self.completeMessage = self.completeMessage[c:]
-                elif (self.completeMessage[len(c:c+3] != ".\r\n"):
                     print(self.completeMessage[:c])
                     print(self.completeMessage[c:])
                     self.socket.send(b"bean250 OK:  delivered message 1")
