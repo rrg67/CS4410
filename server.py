@@ -170,6 +170,7 @@ class ConnectionHandler:
             elif (self.state == "354"):
 
             else: 
+                print ("end")
                 #do stuff
     #self.socket.close()
 
