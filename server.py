@@ -186,7 +186,7 @@ class ConnectionHandler:
                 break
             else: 
                 self.socket.send(b"500 Error: command not recognized")
-            self.socket.close()
+            #self.socket.close()
 
 
 # the main server loop
