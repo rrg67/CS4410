@@ -55,7 +55,7 @@ class ConnectionHandler:
             print ("open")
         while (True):
             print ("in while loop")
-            self.socket.settimeout(10)
+            #self.socket.settimeout(10)
         
 
 
