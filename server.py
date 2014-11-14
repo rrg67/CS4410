@@ -28,46 +28,13 @@ def checkWhiteSpace(string):
         i += 1
     return i
 
-# handle a single client request
-class ConnectionHandler:
-    def __init__(self, socket):
-        self.socket = socket
-        self.state = None
-        self.completeMessage = None
-        self.partialMessage = None
-        self.endMessage = False
-        #self.error = False
-
-    def handle(self):
-        #!/usr/bin/python
-
-import getopt
-import socket
-import sys
-import time
-
-# STOP!  Don't change this.  If you do, we will not be able to contact your
-# server when grading.  Instead, you should provide command-line arguments to
-# this program to select the IP and port on which you want to listen.  See below
-# for more details.
-host = "127.0.0.1"
-port = 8765
-
-def checkNonWhiteSpace(string):
+def findEndChar(string):
     i = -1
     while (i < len(string)):
-        if (string[i] != " "):
-           break
-        i += 1
-    return i
-
-def checkWhiteSpace(string):
-    i = -1
-    while (i < len(string)):
-        if (string[i] == " "):
+        if (string[i:i+6] == "\r\n.\r\n"):
             break
         i += 1
-    return i
+    return i+6
 
 # handle a single client request
 class ConnectionHandler:
@@ -87,7 +54,7 @@ class ConnectionHandler:
             self.socket.send(b"220 rrg67 SMTP CS4410MP3\r\n")
             self.state = "Open"
             print ("open")
-        while (self.completeMessage[len(self.completemessage)-5:] != "\r\n.\r\n"):
+        while (self.completeMessage[len(self.completeMessage)-5:] != "\r\n.\r\n"):
             #self.socket.settimeout(10)
             # Waiting for a HELO command
             print ("in while loop")
@@ -204,48 +171,24 @@ class ConnectionHandler:
             elif (self.state == "DATA"):
                 self.state = "354"
                 self.socket.send(b"354 End data with <CR><LF>.<CR><LF>")
-                self.state = None
                 #self.completeMessage = None
                 #self.partialMessage = None
                 self.endMessage = False
             elif (self.state == "354"):
-                while (self.completeMessage[len(self.completemessage)-2:] != "\r\n.\r\n"):
+                c = findEndChar(self.completeMessage)
+                if (self.completeMessage[len(c:c+3] != ".\r\n"):
+                    print(self.completeMessage[:c])
+                    self.completeMessage = self.completeMessage[c:]
+                elif (self.completeMessage[len(c:c+3] != ".\r\n"):
+                    print(self.completeMessage[:c])
+                    print(self.completeMessage[c:])
+                    self.socket.send(b"bean250 OK:  delivered message 1")
+                    self.state = "end"
+            elif (self.state == "end"):
+                self.socket.close()
             else: 
-                print ("end")
-                #do stuff
-    #self.socket.close()
+                self.socket.send(b"500 Error: command not recognized")
 
-# the main server loop
-def serverloop():
-    serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    # mark the socket so we can rebind quickly to this port number
-    # after the socket is closed
-    serversocket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-    # bind the socket to the local loopback IP address and special port
-    serversocket.bind((host, port))
-    # start listening with a backlog of 5 connections
-    serversocket.listen(5)
-
-    while True:
-        # accept a connection
-        (clientsocket, address) = serversocket.accept()
-        ct = ConnectionHandler(clientsocket)
-        ct.handle()
-
-# You don't have to change below this line.  You can pass command-line arguments
-# -h/--host [IP] -p/--port [PORT] to put your server on a different IP/port.
-opts, args = getopt.getopt(sys.argv[1:], 'h:p:', ['host=', 'port='])
-
-for k, v in opts:
-    if k in ('-h', '--host'):
-        host = v
-    if k in ('-p', '--port'):
-        port = int(v)
-
-print("Server coming up on %s:%i" % (host, port))
-serverloop()
-
-            
 
 # the main server loop
 def serverloop():
