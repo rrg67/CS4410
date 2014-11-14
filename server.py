@@ -51,11 +51,15 @@ class ConnectionHandler:
         self.completeMessage = repr(self.socket.recv(1024))
         if (self.state == None):
             self.socket.send(b"220 rrg67 SMTP CS4410MP3\r\n")
+            print()
             self.state = "Open"
             print ("open")
+            print(self.completeMessage.find('\r\n'))
         while (True):
             print ("in while loop")
-            #self.socket.settimeout(10)
+            self.socket.settimeout(10)
+            while (self.completeMessage.find('\r\n') == -1):
+                self.completeMessage = self.completeMessage + repr(self.socket.recv(1024))
         
 
 
