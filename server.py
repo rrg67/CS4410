@@ -52,7 +52,9 @@ class ConnectionHandler:
         if (self.state == None):
             self.socket.send(b"220 rrg67 SMTP CS4410MP3\r\n")
             self.state = "Open"
+            print("OPEN")
             #print(self.completeMessage)
+        print("OPEN STATE")
         while (True):
             print("TRUE")
             self.socket.settimeout(10)
