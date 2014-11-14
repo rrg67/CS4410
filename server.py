@@ -57,7 +57,7 @@ class ConnectionHandler:
         print(self.completeMessage)
         while (self.state != None):
         # while (self.completeMessage[len(self.completeMessage)-5:] != "\r\n.\r\n"):
-            #self.socket.settimeout(10)
+            self.socket.settimeout(10)
             # Waiting for a HELO command
             print ("IN WHILE LOOP")
             if (self.state == "Open"):
@@ -183,9 +183,10 @@ class ConnectionHandler:
                 self.socket.send(b"bean250 OK:  delivered message 1")
                 self.state = "end"
             elif (self.state == "end"):
-                self.socket.close()
+                break
             else: 
                 self.socket.send(b"500 Error: command not recognized")
+            self.socket.close()
 
 
 # the main server loop
