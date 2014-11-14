@@ -67,8 +67,6 @@ class ConnectionHandler:
                             self.socket.send(b"500 Error: command not recognized\r\n")
                     elif (self.completeMessage[5] != " "):
                         self.socket.send(b"501 Syntax:  proper syntax\r\n")
-                    elif (self.socket.sebdb
-                        )
                     elif (self.completeMessage[m:m+2] == "\r\n"):
                         self.socket.send(b"501 Syntax:  proper syntax\r\n")
                     else :
