@@ -54,15 +54,13 @@ class ConnectionHandler:
         if (self.state == None):
             self.socket.send(b"220 rrg67 SMTP CS4410MP3\r\n")
             self.state = "Open"
-            print ("OPEN")
         while (True):
-            print("in the WHILE loop")
-            print(self.completeMessage + "i")
-            i += 1
+            print(self.completeMessage)
             self.socket.settimeout(10)
             # Waiting for a HELO command
             if (self.state == "Open"):
-                if (self.completeMessage[1:5] == "HELO"):
+                if (self.completeMessage[0:4] == "HELO"):
+                    print("made it through HELO if")
                     m = checkNonWhiteSpace(self.completeMessage[5:])
                     if (self.completeMessage[5] != " " and self.completeMessage[5:7] != "\r\n"):
                             self.socket.send(b"500 Error: command not recognized\r\n")
