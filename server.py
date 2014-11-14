@@ -54,7 +54,7 @@ class ConnectionHandler:
             self.socket.send(b"220 rrg67 SMTP CS4410MP3\r\n")
             self.state = "Open"
             print ("OPEN")
-        print(self.completeMessage)
+        print("Message is " + self.completeMessage)
         while (self.state != None):
         # while (self.completeMessage[len(self.completeMessage)-5:] != "\r\n.\r\n"):
             self.socket.settimeout(10)
