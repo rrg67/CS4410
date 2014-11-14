@@ -56,7 +56,7 @@ class ConnectionHandler:
             self.state = "Open"
             print ("OPEN")
         while (self.state != None):
-            print("in the WHILE loop)
+            print("in the WHILE loop")
             print(self.completeMessage + "i")
             i += 1
             self.socket.settimeout(10)
