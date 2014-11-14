@@ -70,7 +70,6 @@ class ConnectionHandler:
                         self.socket.send(b"501 Syntax:  proper syntax\r\n")
                     else :
                         self.state = "HELO"
-                        print(self.completeMessage)
                         self.socket.send(b"250 rrg67\r\n")
                         self.state = None
                         self.completeMessage = None
