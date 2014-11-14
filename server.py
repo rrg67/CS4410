@@ -57,7 +57,7 @@ class ConnectionHandler:
                 print(self.completeMessage)
             self.socket.settimeout(10)
             # Waiting for a HELO command
-            elif (self.state == "Open"):
+            if (self.state == "Open"):
                 print("Yes, it is an open state")
                 if (self.completeMessage[0:4] == "HELO"):
                     print("made it through HELO if")
