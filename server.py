@@ -42,22 +42,23 @@ class ConnectionHandler:
         self.socket = socket
         self.state = None
         self.completeMessage = None
-        self.partialMessage = None
+        #self.partialMessage = None
         #self.endMessage = False
         #self.error = False
 
     def handle(self):
         # Lets the client know a connection has been made
         self.completeMessage = repr(self.socket.recv(1024))
-        print (self.completeMessage)
         if (self.state == None):
             self.socket.send(b"220 rrg67 SMTP CS4410MP3\r\n")
             self.state = "Open"
             print ("open")
-        while (self.completeMessage[len(self.completeMessage)-5:] != "\r\n.\r\n"):
-            #self.socket.settimeout(10)
-            # Waiting for a HELO command
+        while (True):
             print ("in while loop")
+            self.socket.settimeout(10)
+            while (self.completeMessage.find('\r\n') == -1):
+                self.completeMessage = self.completeMessage + repr(self.socket.recv(1024))
+            # Waiting for a HELO command
             if (self.state == "Open"):
                 print ("state is open, looking for a HELO")
                 if (self.completeMessage[1:5] == "HELO"):
