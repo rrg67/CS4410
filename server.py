@@ -43,10 +43,13 @@ class ConnectionHandler:
         if (self.state == None):
             self.socket.send(b"220 rrg67 SMTP CS4410MP3\r\n")
             self.state = "Open"
+            print ("open")
         while (True):
             #self.socket.settimeout(10)
             # Waiting for a HELO command
+            print ("in while loop")
             if (self.state == "Open"):
+                print ("state is open, looking for a HELO")
                 if (self.completeMessage[1:5] == "HELO"):
                     m = checkNonWhiteSpace(self.completeMessage[5:])
                     if (self.completeMessage[5] != " " and self.completeMessage[5:9] != "\r\n"):
@@ -160,8 +163,7 @@ class ConnectionHandler:
                 self.partialMessage = None
                 self.endMessage = False
             elif (self.state == "354"):
-                # do stuff
-                print "CONTENT"
+
             else: 
                 #do stuff
                 print "DO NOTHING"
