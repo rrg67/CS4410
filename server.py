@@ -59,6 +59,7 @@ class ConnectionHandler:
             self.socket.settimeout(10)
             # Waiting for a HELO command
             if (self.state == "Open"):
+                print("Yes, it is an open state")
                 if (self.completeMessage[0:4] == "HELO"):
                     print("made it through HELO if")
                     m = checkNonWhiteSpace(self.completeMessage[5:])
@@ -76,6 +77,7 @@ class ConnectionHandler:
                         #self.partialMessage = None
                         #self.endMessage = False
                 else:
+                    print("Never made it to the open state")
                     self.socket.send(b"503 Error: need HELO command\r\n")
             # Waiting for a MAIL FROM command
             elif (self.state == "HELO"):
