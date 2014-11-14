@@ -40,6 +40,7 @@ class ConnectionHandler:
 
     def handle(self):
         # Lets the client know a connection has been made
+        self.completeMessage = repr(s.recv(1024)))
         if (self.state == None):
             self.socket.send(b"220 rrg67 SMTP CS4410MP3\r\n")
             self.state = "Open"
