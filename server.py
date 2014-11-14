@@ -49,7 +49,7 @@ class ConnectionHandler:
     def handle(self):
         # Lets the client know a connection has been made
         self.completeMessage = repr(self.socket.recv(1024))
-        print (self.completeMessage)
+        print(self.completeMessage)
         if (self.state == None):
             self.socket.send(b"220 rrg67 SMTP CS4410MP3\r\n")
             self.state = "Open"
@@ -70,6 +70,7 @@ class ConnectionHandler:
                         self.socket.send(b"501 Syntax:  proper syntax\r\n")
                     else :
                         self.state = "HELO"
+                        print(self.completeMessage)
                         self.socket.send(b"250 rrg67\r\n")
                         self.state = None
                         self.completeMessage = None
