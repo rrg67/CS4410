@@ -55,7 +55,7 @@ class ConnectionHandler:
             self.socket.send(b"220 rrg67 SMTP CS4410MP3\r\n")
             self.state = "Open"
             print ("OPEN")
-        while (self.state != None):
+        while (True):
             print("in the WHILE loop")
             print(self.completeMessage + "i")
             i += 1
