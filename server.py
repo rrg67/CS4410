@@ -58,7 +58,7 @@ class ConnectionHandler:
             # Waiting for a HELO command
             if (self.state == "Open"):
                 print("Yes, it is an open state")
-                if (self.completeMessage[0:4] == "HELO"):
+                if (self.completeMessage[1:5] == "HELO"):
                     print("made it through HELO if")
                     m = checkNonWhiteSpace(self.completeMessage[5:])
                     if (self.completeMessage[5] != " " and self.completeMessage[5:7] != "\r\n"):
