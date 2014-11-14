@@ -98,8 +98,8 @@ class ConnectionHandler:
                 else:
                     self.socket.send(b"500 Error: command not recognized\r\n")
             # Waiting for a RCPT TO command
-            print ("state is MAIL FROM, looking for a RCPT TO")
             elif (self.state == "MAIL FROM"):
+                print ("state is MAIL FROM, looking for a RCPT TO")
                 if (self.completeMessage[1:9] == "RCPT TO:"):
                     o = checkWhiteSpace(self.completeMessage[10:])
                     if (self.completeMessage[9] != " " and self.completeMessage[9:13] != '\r\n'):
@@ -126,8 +126,8 @@ class ConnectionHandler:
                 else:
                     self.socket.send(b"500 Error: command not recognized\r\n")
             # Waiting for a DATA command or another RCPT TO command
-            print ("state is RCPT TO, looking for a DATA")
             elif (self.state == "RCPT TO"):
+                print ("state is RCPT TO, looking for a DATA")
                 if (self.completeMessage[1:5] == "DATA"):
                     if (self.completeMessage[5] != " " and self.completeMessage[5:9] != '\r\n'):
                         self.socket.send(b"500 Error: command not recognized\r\n")
