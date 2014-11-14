@@ -168,7 +168,7 @@ class ConnectionHandler:
                 self.partialMessage = None
                 self.endMessage = False
             elif (self.state == "354"):
-
+                print ("content")
             else: 
                 print ("end")
                 #do stuff
