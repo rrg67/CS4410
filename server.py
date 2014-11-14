@@ -177,10 +177,10 @@ class ConnectionHandler:
                 self.endMessage = False
             elif (self.state == "354"):
                 c = findEndChar(self.completeMessage)
-                    print(self.completeMessage[:c])
-                    print(self.completeMessage[c:])
-                    self.socket.send(b"bean250 OK:  delivered message 1")
-                    self.state = "end"
+                print(self.completeMessage[:c])
+                print(self.completeMessage[c:])
+                self.socket.send(b"bean250 OK:  delivered message 1")
+                self.state = "end"
             elif (self.state == "end"):
                 self.socket.close()
             else: 
