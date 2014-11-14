@@ -50,7 +50,8 @@ class ConnectionHandler:
             #self.socket.settimeout(10)
             # Waiting for a HELO command
             print ("in while loop")
-            
+            if (self.state == "Open"):
+                print ("state is open, looking for a HELO")
 
 # the main server loop
 def serverloop():
