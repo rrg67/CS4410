@@ -52,10 +52,13 @@ class ConnectionHandler:
         if (self.state == None):
             self.socket.send(b"220 rrg67 SMTP CS4410MP3\r\n")
             self.state = "Open"
+            print("open")
         while (True):
+            print("in while")
             self.socket.settimeout(10)
             print(self.completeMessage.find('\\r\\n') == -1)
             while (self.completeMessage.find('\\r\\n') == -1):
+                print("adding strings")
                 self.completeMessage = self.completeMessage + repr(self.socket.recv(1024))
             # Waiting for a HELO command
             if (self.state == "Open"):
