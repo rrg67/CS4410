@@ -28,6 +28,14 @@ def checkWhiteSpace(string):
         i += 1
     return i
 
+def findEndChar(string):
+    i = -1
+    while (i < len(string)):
+        if (string[i:i+6] == "\r\n.\r\n"):
+            break
+        i += 1
+    return i+6
+
 # handle a single client request
 class ConnectionHandler:
     def __init__(self, socket):
@@ -35,40 +43,48 @@ class ConnectionHandler:
         self.state = None
         self.completeMessage = None
         self.partialMessage = None
-        self.endMessage = False
+        #self.endMessage = False
         #self.error = False
 
     def handle(self):
         # Lets the client know a connection has been made
+        self.completeMessage = repr(self.socket.recv(1024))
+        print (self.completeMessage)
         if (self.state == None):
             self.socket.send(b"220 rrg67 SMTP CS4410MP3\r\n")
             self.state = "Open"
-        while (True):
+            print ("open")
+        while (self.completeMessage[len(self.completeMessage)-5:] != "\r\n.\r\n"):
             #self.socket.settimeout(10)
             # Waiting for a HELO command
+            print ("in while loop")
             if (self.state == "Open"):
+                print ("state is open, looking for a HELO")
                 if (self.completeMessage[1:5] == "HELO"):
                     m = checkNonWhiteSpace(self.completeMessage[5:])
-                    if (self.completeMessage[5] != " " and self.completeMessage[5:9] != "\r\n"):
+                    if (self.completeMessage[5] != " " and self.completeMessage[5:7] != "\r\n"):
                             self.socket.send(b"500 Error: command not recognized\r\n")
                     elif (self.completeMessage[5] != " "):
                         self.socket.send(b"501 Syntax:  proper syntax\r\n")
-                    elif (self.completeMessage[m:m+4] == "\r\n"):
+                    elif (self.socket.sebdb
+                        )
+                    elif (self.completeMessage[m:m+2] == "\r\n"):
                         self.socket.send(b"501 Syntax:  proper syntax\r\n")
                     else :
                         self.state = "HELO"
                         self.socket.send(b"250 rrg67\r\n")
                         self.state = None
                         self.completeMessage = None
-                        self.partialMessage = None
-                        self.endMessage = False
+                        #self.partialMessage = None
+                        #self.endMessage = False
                 else:
                     self.socket.send(b"503 Error: need HELO command\r\n")
             # Waiting for a MAIL FROM command
             elif (self.state == "HELO"):
+                print ("state is HELO, looking for a MAIL FROM")
                 if (self.completeMessage[1:11] == "MAIL FROM:"):
                     o = checkNonWhiteSpace(self.completeMessage[12:])
-                    if (self.completeMessage[11] != " " and self.completeMessage[11:15] != '\r\n'):
+                    if (self.completeMessage[11] != " " and self.completeMessage[11:13] != '\r\n'):
                        self.socket.send(b"500 Error: command not recognized\r\n")
                     elif (self.completeMessage[11] != " "):
                         self.socket.send(b"501 Syntax:  proper syntax\r\n")
@@ -81,8 +97,8 @@ class ConnectionHandler:
                         self.socket.send(b"250 OK\r\n")
                         self.state = None
                         self.completeMessage = None
-                        self.partialMessage = None
-                        self.endMessage = False
+                        #self.partialMessage = None
+                        #self.endMessage = False
                 elif (self.completeMessage[1:5] == "HELO"):
                     self.socket.send(b"503 Error: duplicate HELO\r\n")
                 elif (self.completeMessage[1:9] == "RCPT TO:"):
@@ -93,9 +109,10 @@ class ConnectionHandler:
                     self.socket.send(b"500 Error: command not recognized\r\n")
             # Waiting for a RCPT TO command
             elif (self.state == "MAIL FROM"):
+                print ("state is MAIL FROM, looking for a RCPT TO")
                 if (self.completeMessage[1:9] == "RCPT TO:"):
                     o = checkWhiteSpace(self.completeMessage[10:])
-                    if (self.completeMessage[9] != " " and self.completeMessage[9:13] != '\r\n'):
+                    if (self.completeMessage[9] != " " and self.completeMessage[9:11] != '\r\n'):
                         self.socket.send(b"500 Error: command not recognized\r\n")
                     elif (self.completeMessage[9] != " "):
                         self.socket.send(b"501 Syntax:  proper syntax\r\n")
@@ -108,8 +125,8 @@ class ConnectionHandler:
                         self.socket.send(b"250 OK\r\n")
                         self.state = None
                         self.completeMessage = None
-                        self.partialMessage = None
-                        self.endMessage = False
+                        #self.partialMessage = None
+                        #self.endMessage = False
                 elif (self.completeMessage[1:5] == "HELO"):
                     self.socket.send(b"503 Error: duplicate HELO\r\n")
                 elif (self.completeMessage[1:11] == "MAIL FROM:"):
@@ -120,18 +137,19 @@ class ConnectionHandler:
                     self.socket.send(b"500 Error: command not recognized\r\n")
             # Waiting for a DATA command or another RCPT TO command
             elif (self.state == "RCPT TO"):
+                print ("state is RCPT TO, looking for a DATA")
                 if (self.completeMessage[1:5] == "DATA"):
-                    if (self.completeMessage[5] != " " and self.completeMessage[5:9] != '\r\n'):
+                    if (self.completeMessage[5] != " " and self.completeMessage[5:7] != '\r\n'):
                         self.socket.send(b"500 Error: command not recognized\r\n")
-                    elif (self.completeMessage[9] != " "):
+                    elif (self.completeMessage[5] != " "):
                         self.socket.send(b"501 Syntax: proper syntax\r\n")
                     else: 
                         self.state = "DATA"
                         self.socket.send(b"250 OK\r\n")
                         self.state = None
                         self.completeMessage = None
-                        self.partialMessage = None
-                        self.endMessage = False
+                        #self.partialMessage = None
+                        #self.endMessage = False
                 elif (self.completeMessage[1:9] == "RCPT TO:\r\n"):
                     o = checkNonWhiteSpace(self.completeMessage[10:])
                     if (self.completeMessage[9] != " " and self.completeMessage[9:13] != '\r\n'):
@@ -153,15 +171,26 @@ class ConnectionHandler:
                     self.socket.send(b"500 Error: command not recognized\r\n")
                 # Waiting for content
             elif (self.state == "DATA"):
-                # do stuff
-                print "DATA"
+                self.state = "354"
+                self.socket.send(b"354 End data with <CR><LF>.<CR><LF>")
+                #self.completeMessage = None
+                #self.partialMessage = None
+                self.endMessage = False
             elif (self.state == "354"):
-                # do stuff
-                print "CONTENT"
+                c = findEndChar(self.completeMessage)
+                if (self.completeMessage[len(c:c+3] != ".\r\n"):
+                    print(self.completeMessage[:c])
+                    self.completeMessage = self.completeMessage[c:]
+                elif (self.completeMessage[len(c:c+3] != ".\r\n"):
+                    print(self.completeMessage[:c])
+                    print(self.completeMessage[c:])
+                    self.socket.send(b"bean250 OK:  delivered message 1")
+                    self.state = "end"
+            elif (self.state == "end"):
+                self.socket.close()
             else: 
-                #do stuff
-                print "DO NOTHING"
-    #self.socket.close()
+                self.socket.send(b"500 Error: command not recognized")
+
 
 # the main server loop
 def serverloop():
