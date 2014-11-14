@@ -1,0 +1,146 @@
+NETID:  rrg67
+
+Describe the contents of an IP packet and for each field describe the purpose it serves.
+
+    An IP packet contains the following fields: version, IHL, TOS, total length,
+    identification, flags, fragment offset, TTL, protocol, header checksum, 
+    source address, destination address, options, and data. The version field describes
+    the IP version being used so that it may be interpreted correctly. The IHL, or 
+    Internet Header Length, field tells you the size of the header. It also coincides 
+    with the offset to the data. The TOS, or the Type of Service, field gives a priority 
+    to each packet and provides a way to request treatments such as high throughput, high 
+    reliability, low latency, or other options. The total length field gives the size of 
+    the entire packet with the minimum size being 20 bytes and the maximum size being 65,535 
+    bytes. The identification field is for identifying a fragment within a group in a single 
+    IP stream. The flag field controls or identifies packets using three bits (0: reserved, 1:
+    don't fragment, 2: more fragments). The fragment offset field gives the offset of a fragment 
+    compated to the beginning of the original IP data. The TTL, or Time to Live, field limits an 
+    IP packet's lifetime. The protocol field gives the protocol for the data part of the packet. 
+    The header checksum field checks for errors in the header, comparing it to the checksum field 
+    so that if they do not match the packet is discarded because there is an error in the packet. 
+    The source address field is the address of the packet sender. The destination address field is
+    the address of the packet's destination. The option field gives options for the packet which 
+    could be related to security or copies of the packet. The final field, data, conains the 
+    information of the packet that was being sent from one destination to another. 
+
+
+Describe the general operation of the BGP protocol.
+
+    BGP, or Border Gateway Protocol, is a standardized protocol used in exchange routing and 
+    reachability information between autonomous systems (ASs) on the Interet. BGP establishes 
+    neighbors, or peers, to create a TCP, or transport protocol connection, session by configuring 
+    routers. Topological links are established, providing physical connections through which data 
+    can flow between ASs. Links may be made between many ASs using neighbors to find the system it 
+    wants to talk to. 
+
+Describe why the ethernet protocol necessitates a minimum packet size.
+
+    Ethernet protocol necessitates a minimum packet size so that hosts may check a collision. 
+    The minimum packet size is 64 bytes which allows all hosts to do this. This is so that 
+    when two machines transmit a packet at the same time, they will be able to detect a colision 
+    as 64 bytes is the maximum distance between routers, so two packets will collide and each 
+    machine will be able to tell immediately and stop their transmission. 
+
+Describe how TCP reacts to congestion in the network.  Assume that
+congestion is brought on by BGP reconfiguring the path such that TCP
+packets now go through a bottleneck link of capacity B packets/second.
+Describe in detail what TCP will do when faced with this bottleneck.
+
+    TCP reacts to congestion by backing off when congestion nears the capacity. 
+    TCP increases the window size until a packet is dropped, in which case it 
+    cuts the window size in half. TCP will slowly build up to the maximum bandwidth, 
+    hover around the max, but never actually achieve the maximum because it shares 
+    bandwidth with all other TCP connections. The amount of bandwidth used will 
+    linearly increase until there is congestion and it exponentially backs off. 
+
+Describe TCP's behavior when it is first getting started delivering data
+over a high latency, high-bandwidth channel such as a satellite link. Be
+sure to explain how TCP manages its window size during the initial
+connection setup.
+
+    TCP will take a long time to build up a larger window size, so TCP can spend a 
+    lot of time with small windows never getting larger window sizes becuase transactions 
+    are not long enough. In order to fix this problem, we can have TCP quickly reach 
+    a large window size by doubling the window size until the pfirst packet is dropped. 
+
+On an ethernet segment, the ARP protocol is used to locate the ethernet
+address of a host whose IP address is known. On the Internet, DNS is
+used to locate the IP address of a host whose name is known. ARP and
+DNS are drastically different -- the former uses a broadcast mechanism
+while the latter implements a scalable, distributed database. Explain
+why DNS was designed the way it was, and not, for instance, based on
+a simple broadcast.
+
+    DNS was designed the way it was because it is simple to look up IP 
+    addresses based on the name of the hostname. It is also easy to change 
+    without affecting the user who uses the same URL despite the possible 
+    change in IP address. DNS is also able to distribute the the assigning 
+    and mapping of names to IP addresses by having name serers for each domain. 
+
+Describe the two means by which a DNS name, such as www.cnn.com, is
+resolved.
+
+    A DNS name can be resolved by servers accepting a request from a 
+    program to convert a domain name to an IP address or accept a 
+    request from another name server to convert the domain name. 
+
+What is a DNS local resolver?
+
+    A DNS local resolver is the client side of the DNS. It creates a 
+    query and sends it to the server or servers listed on in the TCP/IP 
+    settings. It is a standard piece of software that the OS provides 
+    and looks up IP addresses.
+
+What purpose does the ACK # serve in TCP?
+
+    The ACK # is a 32 bit number in a sequence that keeps track of how 
+    much information has been sent in order to tell the sender that the 
+    data has been sent successfully. 
+
+What purpose does the destination port number serve in UDP?
+
+    The destination port in UDP serves the purpose of telling the UDP 
+    packet where to go because UDP does not directly connect to the 
+    destination, but instead it sends the packed out and uses the devices 
+    in between the source and destination devices. 
+
+Why does UDP include a checksum? Wouldn't the end-to-end argument
+require that all checksums be performed at the application level, and
+hence argue that UDP and TCP elide such additional checksums in the
+network stack?
+
+    UDP includes a checksum to check for errors in the header and data. 
+    The end-to-end argument would recquire all checksums be preformed 
+    at an application level, except you cannot assume there is error 
+    checking for every machine or device between the source and destination. 
+    Therefore, haveing a checksum allows the destination to check for errors 
+    before attempting to use the packet. 
+
+Imagine that a mail server on host A has just received a TCP/IP SYN
+packet destined for it. Describe everything that happens to this packet
+from the point of its reception by the network interface card to the
+point of its delivery to the mail server.
+
+    Host A has just recieved a SYN packet sent to it by Host B. HOst A 
+    then sends a SYN-ACK packet back to Host B to let Host B know that 
+    it recieved the packet. Host B then sends and ACK packet back to 
+    Host A in order to confirm the connection between the hosts. Host A 
+    then does whatever it needs to do with the packet.  
+
+In IPv6, why do routers not fragment packets. What does IPv6
+do instead of fragmentation?
+
+    In IPv6, routers do not fragment packets because fragmentation can cause 
+    security problems, overlapping fragments take time to put back together 
+    once recieved, and you must wait for all of the packets. IPv6 does path 
+    MTU discovery, end-to-end fragmentation, or send packets that are no larger 
+    than the default size. 
+
+What is the difference between a web proxy and a vpn? When would it be advantageous 
+to use a proxy instead of a vpn?
+
+    A web proxy forwards HTTP requests and allows you to change your IP address when 
+    using the internet. A vpn, or virtual private network, extends a private network 
+    across a public network and can encrypt your network. It would be more advantageous 
+    to use a proxy instead of vpn whne you need to quickly and anonymously access websites 
+    as well as if you are trying to save money. 
