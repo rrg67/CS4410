@@ -50,15 +50,14 @@ class ConnectionHandler:
         # Lets the client know a connection has been made
         self.completeMessage = repr(self.socket.recv(1024))
         #print(self.completeMessage)
-        i = 0
-        if (self.state == None):
-            self.socket.send(b"220 rrg67 SMTP CS4410MP3\r\n")
-            self.state = "Open"
         while (True):
-            print(self.completeMessage)
+            if (self.state == None):
+                self.socket.send(b"220 rrg67 SMTP CS4410MP3\r\n")
+                self.state = "Open"
+                print(self.completeMessage)
             self.socket.settimeout(10)
             # Waiting for a HELO command
-            if (self.state == "Open"):
+            elif (self.state == "Open"):
                 print("Yes, it is an open state")
                 if (self.completeMessage[0:4] == "HELO"):
                     print("made it through HELO if")
