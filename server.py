@@ -54,8 +54,8 @@ class ConnectionHandler:
             self.state = "Open"
         while (True):
             self.socket.settimeout(10)
-            print(self.completeMessage.find('\r\n') == -1)
-            while (self.completeMessage.find('\r\n') == -1):
+            print(self.completeMessage.find('\\r\\n') == -1)
+            while (self.completeMessage.find('\\r\\n') == -1):
                 self.completeMessage = self.completeMessage + repr(self.socket.recv(1024))
             # Waiting for a HELO command
             if (self.state == "Open"):
