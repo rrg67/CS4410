@@ -55,7 +55,7 @@ class ConnectionHandler:
             self.state = "Open"
             print ("OPEN")
         print(self.completeMessage)
-        while (True):
+        while (self.state != None):
         # while (self.completeMessage[len(self.completeMessage)-5:] != "\r\n.\r\n"):
             #self.socket.settimeout(10)
             # Waiting for a HELO command
