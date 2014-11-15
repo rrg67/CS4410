@@ -58,9 +58,10 @@ class ConnectionHandler:
             i = 0
             while (i < len(self.partialMessage)):
                 if (self.partialMessage[i:i+4] == '\\r\\n'):
-                    break
+                    pass
                 else: 
                     self.completeMessage = self.completeMessage + self.partialMessage
+            print(self.state)
             # Waiting for a HELO command
             if (self.state == "Open"):
                 print ("state is open, looking for a HELO")
