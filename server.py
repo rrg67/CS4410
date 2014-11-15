@@ -48,44 +48,7 @@ class ConnectionHandler:
             self.socket.settimeout(10)
             i = 0
             self.partialMessage = (self.socket.recv(1024))
-            while (i < len(self.partialMessage)):
-                if (self.partialMessage[i] == '\\'):
-                    if (self.partialMessage[i+1] == 'r'):
-                        if (self.partialMessage[i+2] == '\\'):
-                            if (self.partialMessage[i+3] == 'n'):
-                                pass
-                            else:
-                                self.completeMessage = self.completeMessage + self.partialMessage[i:i+3]
-                        else: 
-                            self.completeMessage = self.completeMessage + self.partialMessage[i+2]
-                    else:
-                        self.completeMessage = self.completeMessage + self.partialMessage[i+1]
-                else: 
-                    self.completeMessage = self.completeMessage + self.partialMessage[i]
-            print(self.completeMessage)
-            print(self.state)
-            # Waiting for a HELO command
-            if (self.state == "Open"):
-                print ("state is open, looking for a HELO")
-                if (self.completeMessage[1:5] == "HELO"):
-                    print("Complete " + self.completeMessage)
-                    m = checkNonWhiteSpace(self.completeMessage[5:])
-                    if (self.completeMessage[5] != " " and self.completeMessage[5:7] != "\r\n"):
-                            self.socket.send(b"500 Error: command not recognized\r\n")
-                    elif (self.completeMessage[5] != " "):
-                        self.socket.send(b"501 Syntax:  proper syntax\r\n")
-                    elif (self.completeMessage[m:m+2] == "\r\n"):
-                        self.socket.send(b"501 Syntax:  proper syntax\r\n")
-                    else :
-                        self.state = "HELO"
-                        self.socket.send(b"250 rrg67\r\n")
-                        self.state = None
-                        self.completeMessage = None
-                        #self.partialMessage = None
-                        #self.endMessage = False
-                else:
-                    self.socket.send(b"503 Error: need HELO command\r\n")
-                        # Waiting for a MAIL FROM command
+            print(self.partialMessage)
 
 
 # the main server loop
