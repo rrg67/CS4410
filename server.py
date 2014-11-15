@@ -57,6 +57,7 @@ class ConnectionHandler:
             self.partialMessage = (self.socket.recv(1024))
             i = 0
             while (i < len(self.partialMessage)):
+                print("in second while loop")
                 if (self.partialMessage[i:i+4] == '\\r\\n'):
                     pass
                 else: 
