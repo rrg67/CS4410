@@ -42,7 +42,7 @@ class ConnectionHandler:
         self.socket = socket
         self.state = None
         self.completeMessage = None
-        #self.partialMessage = None
+        self.partialMessage = None
         #self.endMessage = False
         #self.error = False
 
@@ -55,10 +55,10 @@ class ConnectionHandler:
         while (True):
             print ("in while loop")
             self.socket.settimeout(10)
-            self.completeMessage = repr(self.socket.recv(1024))
-            while (self.completeMessage.find('\r\n') == -1):
-                self.completeMessage = self.completeMessage + repr(self.socket.recv(1024))
-            print(self.completeMessage.find('\r\n'))
+            self.partialMessage = repr(self.socket.recv(1024))
+            print(self.partialMessage.find('\r\n') == -1)
+            while (self.partialMessage.find('\r\n') == -1):
+                self.completeMessage = self.completeMessage + self.partialMessage
         
 
 
