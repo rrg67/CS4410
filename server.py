@@ -47,11 +47,22 @@ class ConnectionHandler:
         while (True):
             self.socket.settimeout(10)
             i = 0
-            print(i)
             self.partialMessage = (self.socket.recv(1024))
             while (i < len(self.partialMessage)):
-                print(i)
-                i += 1
+                if (self.partialMessage[i] == '\\'):
+                    if (self.partialMessage[i+1] == 'r'):
+                        if (self.partialMessage[i+2] == '\\'):
+                            if (self.partialMessage[i+3] == 'n'):
+                                pass
+                            else:
+                                self.completeMessage = self.completeMessage + self.partialMessage[i:i+3]
+                        else: 
+                            self.completeMessage = self.completeMessage + self.partialMessage[i+2]
+                    else:
+                        self.completeMessage = self.completeMessage + self.partialMessage[i+1]
+                else: 
+                    self.completeMessage = self.completeMessage + self.partialMessage[i]
+            print(self.completeMessage)
 
 
 # the main server loop
