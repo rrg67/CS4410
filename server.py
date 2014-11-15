@@ -55,25 +55,13 @@ class ConnectionHandler:
         while (True):
             self.socket.settimeout(10)
             self.partialMessage = (self.socket.recv(1024))
+            i = 0
             while (i < len(self.partialMessage)):
-                print("in the second while loop")
-                if ((i + 3) > len(self.partialMessage) and self.partialMessage[i-1] != '\\'):
-                    self.completeMessage = self.completeMessage + partialMessage[i:]
-                if (self.partialMessage[i] == '\\'):
-                    if (self.partialMessage[i+1] == 'r'):
-                        if (self.partialMessage[i+2] == '\\'):
-                            if (self.partialMessage[i+3] == 'n'):
-                                pass
-                            else:
-                                self.completeMessage = self.completeMessage + self.partialMessage[i:i+3]
-                        else: 
-                            self.completeMessage = self.completeMessage + self.partialMessage[i+2]
-                    else:
-                        self.completeMessage = self.completeMessage + self.partialMessage[i+1]
+                if (self.partialMessage[i:i+4] == '\\r\\n'):
+                    break
                 else: 
-                    self.completeMessage = self.completeMessage + self.partialMessage[i]
-            # Waiting for a HELO command
-                    
+                    self.completeMessage = self.completeMessage + self.partialMessage
+            print("Complete " + self.completeMessage)
             
             
         
