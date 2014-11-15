@@ -63,8 +63,8 @@ class ConnectionHandler:
                     self.completeMessage = self.completeMessage + self.partialMessage[:self.partialMessage.find('\\r\\n')]
                 else: self.completeMessage = self.partialMessage
                 if (len(partialMessage[self.partialMessage.find('\\r\\n')+4:]) > 0):
-                    self.partialMessage = (partialMessage[self.partialMessage.find('\\r\\n')+4:]
-                print("finished while loop")
+                    self.partialMessage = (partialMessage[self.partialMessage.find('\\r\\n')+4:])
+            print("finished while loop")
 
 
             
