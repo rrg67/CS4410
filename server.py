@@ -59,24 +59,17 @@ class ConnectionHandler:
         if (self.state == None):
             self.socket.send(b"220 rrg67 SMTP CS4410MP3\r\n")
             self.state = "Open"
-            print("open")
         while (True):
             i = 0
-            print("TRUE")
             self.socket.settimeout(10)
             self.partialMessage = repr(self.socket.recv(500))
             while (i < len(self.partialMessage)):
-                print("inner true")
                 if (self.partialMessage.find('\\r\\n') > 0):
                     self.completeMessage = self.completeMessage + self.partialMessage[i]
-            print("Partial " + self.partialMessage)
-            print("Complete " + self.completeMessage)
             print(self.state)
             # Waiting for a HELO command
             if (self.state == "Open"):
-                print ("state is open, looking for a HELO")
                 if (self.completeMessage[1:5] == "HELO"):
-                    print("Complete " + self.completeMessage)
                     m = checkNonWhiteSpace(self.completeMessage[5:])
                     if (self.completeMessage[5] != " " and self.completeMessage[5:7] != "\r\n"):
                             self.socket.send(b"500 Error: command not recognized\r\n")
@@ -95,7 +88,6 @@ class ConnectionHandler:
                     self.socket.send(b"503 Error: need HELO command\r\n")
                         # Waiting for a MAIL FROM command
             elif (self.state == "HELO"):
-                print ("state is HELO, looking for a MAIL FROM")
                 if (self.completeMessage[1:11] == "MAIL FROM:"):
                     o = checkNonWhiteSpace(self.completeMessage[12:])
                     if (self.completeMessage[11] != " " and self.completeMessage[11:13] != '\r\n'):
@@ -123,7 +115,6 @@ class ConnectionHandler:
                     self.socket.send(b"500 Error: command not recognized\r\n")
             # Waiting for a RCPT TO command
             elif (self.state == "MAIL FROM"):
-                print ("state is MAIL FROM, looking for a RCPT TO")
                 if (self.completeMessage[1:9] == "RCPT TO:"):
                     o = checkWhiteSpace(self.completeMessage[10:])
                     if (self.completeMessage[9] != " " and self.completeMessage[9:11] != '\r\n'):
@@ -200,12 +191,6 @@ class ConnectionHandler:
                 self.socket.close()
             else: 
                 self.socket.send(b"500 Error: command not recognized")
-
-
-
-            
-        
-
 
 # the main server loop
 def serverloop():
