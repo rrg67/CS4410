@@ -64,7 +64,7 @@ class ConnectionHandler:
                 else: self.completeMessage = self.partialMessage
                 if (len(partialMessage[self.partialMessage.find('\\r\\n')+4:]) > 0):
                     self.partialMessage = (partialMessage[self.partialMessage.find('\\r\\n')+4:]
-            print("finished while loop")
+                print("finished while loop")
 
 
             
