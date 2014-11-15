@@ -54,7 +54,7 @@ class ConnectionHandler:
             self.state = "Open"
             print("open")
         while (True):
-            print("TRUE"))
+            print("TRUE")
             self.socket.settimeout(10)
             self.partialMessage = repr(self.socket.recv(500))
             while (self.partialMessage != None):
