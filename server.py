@@ -51,6 +51,7 @@ class ConnectionHandler:
             self.partialMessage = (self.socket.recv(1024))
             while (i < len(self.partialMessage)):
                 print(i)
+                i += 1
 
 
 # the main server loop
