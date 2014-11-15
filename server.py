@@ -28,14 +28,6 @@ def checkWhiteSpace(string):
         i += 1
     return i
 
-def findEndChar(string):
-    i = -1
-    while (i < len(string)):
-        if (string[i:i+6] == "\r\n.\r\n"):
-            break
-        i += 1
-    return i+6
-
 # handle a single client request
 class ConnectionHandler:
     def __init__(self, socket):
@@ -58,11 +50,7 @@ class ConnectionHandler:
             print(i)
             self.partialMessage = (self.socket.recv(1024))
             while (i < len(self.partialMessage)):
-                print("in second while loop")
-                if (self.partialMessage[i:i+4] == '\\r\\n'):
-                    pass
-                else: 
-                    self.completeMessage = self.completeMessage + self.partialMessage
+                print(i)
             print(self.state)
             # Waiting for a HELO command
             if (self.state == "Open"):
