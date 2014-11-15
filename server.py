@@ -41,7 +41,7 @@ class ConnectionHandler:
     def __init__(self, socket):
         self.socket = socket
         self.state = None
-        self.completeMessage = None
+        self.completeMessage = ""
         self.partialMessage = None
         #self.endMessage = False
         #self.error = False
