@@ -54,17 +54,17 @@ class ConnectionHandler:
             self.state = "Open"
             print("open")
         while (True):
+            i = 0
             print("TRUE")
             self.socket.settimeout(10)
             self.partialMessage = (self.socket.recv(1024))
-            i = 0
-            print("Partial " + self.partialMessage)
             while (i < len(self.partialMessage)):
                 print("in second while loop")
                 if (self.partialMessage[i:i+4] == '\\r\\n'):
                     break
                 else: 
                     self.completeMessage = self.completeMessage + self.partialMessage
+            print("Partial " + self.partialMessage)
             print("Complete " + self.completeMessage)
             
             
