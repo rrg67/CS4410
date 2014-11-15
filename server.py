@@ -62,6 +62,27 @@ class ConnectionHandler:
                 else: 
                     self.completeMessage = self.completeMessage + self.partialMessage
             print("Complete " + self.completeMessage)
+            # Waiting for a HELO command
+            if (self.state == "Open"):
+                print ("state is open, looking for a HELO")
+                if (self.completeMessage[1:5] == "HELO"):
+                    m = checkNonWhiteSpace(self.completeMessage[5:])
+                    if (self.completeMessage[5] != " " and self.completeMessage[5:7] != "\r\n"):
+                            self.socket.send(b"500 Error: command not recognized\r\n")
+                    elif (self.completeMessage[5] != " "):
+                        self.socket.send(b"501 Syntax:  proper syntax\r\n")
+                    elif (self.completeMessage[m:m+2] == "\r\n"):
+                        self.socket.send(b"501 Syntax:  proper syntax\r\n")
+                    else :
+                        self.state = "HELO"
+                        self.socket.send(b"250 rrg67\r\n")
+                        self.state = None
+                        self.completeMessage = None
+                        #self.partialMessage = None
+                        #self.endMessage = False
+                else:
+                    self.socket.send(b"503 Error: need HELO command\r\n")
+                        # Waiting for a MAIL FROM command
             
             
         
