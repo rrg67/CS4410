@@ -66,6 +66,7 @@ class ConnectionHandler:
             self.socket.settimeout(10)
             self.partialMessage = repr(self.socket.recv(500))
             while (i < len(self.partialMessage)):
+                print("inner true")
                 if (self.partialMessage.find('\\r\\n') > 0):
                     self.completeMessage = self.completeMessage + self.partialMessage[i]
             print("Partial " + self.partialMessage)
