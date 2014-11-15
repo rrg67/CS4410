@@ -49,7 +49,7 @@ class ConnectionHandler:
         self.socket = socket
         self.state = None
         self.completeMessage = ""
-        self.partialMessage = None
+        self.partialMessage = ""
         #self.endMessage = False
         #self.error = False
 
@@ -65,7 +65,7 @@ class ConnectionHandler:
             self.socket.settimeout(10)
             self.partialMessage = repr(self.socket.recv(500))
             stringThing(self.partialMessage, self.completeMessage)
-            
+
 
 
             
