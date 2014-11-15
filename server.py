@@ -58,7 +58,7 @@ class ConnectionHandler:
             i = 0
             print("Partial " + self.partialMessage)
             while (i < len(self.partialMessage)):
-                if (partialMessage[i:i+4] == '\\r\\n'):
+                if (self.partialMessage[i:i+4] == '\\r\\n'):
                     break
                 else: 
                     self.completeMessage = self.completeMessage + self.partialMessage
