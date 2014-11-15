@@ -55,10 +55,10 @@ class ConnectionHandler:
         while (True):
             self.socket.settimeout(10)
             self.partialMessage = (self.socket.recv(1024))
-            print(self.partialMessage)
+            print("Partial " + self.partialMessage)
             while (self.partialMessage.find('\r\n') == -1):
                 self.completeMessage = self.completeMessage + self.partialMessage
-            print(self.completeMessage)
+            print("Complete " + self.completeMessage)
             
             
         
