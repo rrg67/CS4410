@@ -51,6 +51,7 @@ class ConnectionHandler:
         #self.completeMessage = (self.socket.recv(1024))
         if (self.state == None):
             self.socket.send(b"220 rrg67 SMTP CS4410MP3\r\n")
+            self.state = "Open"
         while (True):
             self.socket.settimeout(10)
             self.partialMessage = (self.socket.recv(1024))
