@@ -28,6 +28,13 @@ def checkWhiteSpace(string):
         i += 1
     return i
 
+def stringThing(into, out):
+    i = 0
+    for x in into:
+        if (into[i] != '\\' and into[i+1] != 'r' and into[i+2] != '\\' and into[i+3] != 'n'):
+            out = out + into[i]
+    print out
+
 def findEndChar(string):
     i = -1
     while (i < len(string)):
@@ -57,14 +64,8 @@ class ConnectionHandler:
             print("TRUE")
             self.socket.settimeout(10)
             self.partialMessage = repr(self.socket.recv(500))
-            while (self.partialMessage != None):
-                print("in second while loop")
-                if (self.partialMessage.find('\\r\\n') > -1):
-                    self.completeMessage = self.completeMessage + self.partialMessage[:self.partialMessage.find('\\r\\n')]
-                else: self.completeMessage = self.partialMessage
-                if (len(partialMessage[self.partialMessage.find('\\r\\n')+4:]) > 0):
-                    self.partialMessage = (partialMessage[self.partialMessage.find('\\r\\n')+4:])
-            print("finished while loop")
+            stringThing(self.partialMessage, self.completeMessage)
+            
 
 
             
