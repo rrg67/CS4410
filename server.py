@@ -53,19 +53,9 @@ class ConnectionHandler:
             self.socket.send(b"220 rrg67 SMTP CS4410MP3\r\n")
             self.state = "Open"
             print("open")
-        while (True):
-            i = 0
-            print("TRUE")
-            self.socket.settimeout(10)
-            self.partialMessage = (self.socket.recv(1024))
-            while (i < len(self.partialMessage)):
-                print("in second while loop")
-                if (self.partialMessage[i:i+4] == '\\r\\n'):
-                    break
-                else: 
-                    self.completeMessage = self.completeMessage + self.partialMessage
-            print("Partial " + self.partialMessage)
-            print("Complete " + self.completeMessage)
+        i = 0
+        while (i < 10):
+            print(i)
             
             
         
